@@ -2,14 +2,21 @@ import {useState} from "react";
 import { Text, View,StyleSheet,Alert } from "react-native";
 import Botao from "../src/components/Botao";
 import Input from "../src/components/Input";
-import { colors, spacing, fontSizes } from "../src/theme";
+import { colors, spacing, fontSizes } from "../src/theme"; 
+import { useAuth } from "../src/contexts/AuthContext";
 
 export default function Index() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const { entrar } = useAuth();
 
-  function fazerLogin() {
-   Alert.alert("Login", "Email digitado:" + email);
+  async function fazerLogin() {
+   const ok = await entrar(email, senha);
+   if (ok) {
+     Alert.alert("Sucesso", "Login realizado!");
+   }else {
+    Alert.alert("Erro", "E-mail ou senha invalidas!");
+   }
   }
   
   return (
