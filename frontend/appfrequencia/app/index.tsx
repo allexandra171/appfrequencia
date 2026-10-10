@@ -45,7 +45,10 @@ export default function Index() {
       secureTextEntry
     />
     <Botao titulo="Entrar" onPress={fazerLogin} />
-  </View>
+    <View style={{ marginTop:12 }}>
+    <Botao titulo="Cadastrar-se" onPress={() => router.push("/cadastro")} />
+    </View>
+    </View>
 );
 }
 
