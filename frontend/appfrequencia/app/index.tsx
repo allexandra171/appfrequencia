@@ -20,8 +20,12 @@ export default function Index() {
   }, [usuario, router]);
 
   async function fazerLogin() {
-   const ok = await entrar(email, senha);
-   if (!ok) Alert.alert("Erro", "Email ou senha invalidos");
+   const resultado = await entrar(email, senha);
+   if (resultado === "invalido") {
+    Alert.alert("Erro", "E-mail ou senha inválidos");
+   }else if (resultado === "pendente") {
+    Alert.alert("Aguarde", "Seu cadastro ainda não foi aprovado pelo professor");
+   }
   }
   
   return (
