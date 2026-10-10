@@ -1,22 +1,27 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Text, View,StyleSheet,Alert } from "react-native";
 import Botao from "../src/components/Botao";
 import Input from "../src/components/Input";
 import { colors, spacing, fontSizes } from "../src/theme"; 
 import { useAuth } from "../src/contexts/AuthContext";
+import { useRouter } from "expo-router";
 
 export default function Index() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const { entrar } = useAuth();
+  
+  const {entrar, usuario} = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!usuario) return;
+    const rotas = {admin: "/admin", professor: "/professor", aluno: "/aluno"} as const;
+    router.replace(rotas[usuario.perfil]);
+  }, [usuario, router]);
 
   async function fazerLogin() {
    const ok = await entrar(email, senha);
-   if (ok) {
-     Alert.alert("Sucesso", "Login realizado!");
-   }else {
-    Alert.alert("Erro", "E-mail ou senha invalidas!");
-   }
+   if (!ok) Alert.alert("Erro", "Email ou senha invalidos");
   }
   
   return (
